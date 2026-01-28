@@ -1,0 +1,5 @@
+# Ignore Python cache and IDE files
+__pycache__/
+*.egg-info/
+.vscode/
+.mypy_cache/

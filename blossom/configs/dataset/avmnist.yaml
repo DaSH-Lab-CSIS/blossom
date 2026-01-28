@@ -1,0 +1,15 @@
+# Configuration for AV-MNIST dataset
+name: AV-MNIST
+huggingface: BLOSSOM-framework/AV-MNIST
+task:
+  _target_: blossom.benchmarks.avmnist.task.get_task
+dataset_class:
+  _target_: blossom.benchmarks.avmnist.dataloader.get_dataset_class
+encoders_dict:
+  _target_: blossom.benchmarks.avmnist.models.get_encoders_dict
+fusion_module:
+  _target_: blossom.benchmarks.avmnist.models.get_fusion_module
+head_module:
+  _target_: blossom.benchmarks.avmnist.models.get_head_module 
+partition_by:
+  _target_: blossom.benchmarks.avmnist.task.get_partition_by

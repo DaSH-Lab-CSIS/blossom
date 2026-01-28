@@ -1,0 +1,4 @@
+# Configuration for private-head aggregation strategy
+name: private-head
+private_head: true
+private_fusion: false

@@ -1,0 +1,4 @@
+# Configuration for full-model aggregation strategy
+name: full-model
+private_head: false
+private_fusion: false

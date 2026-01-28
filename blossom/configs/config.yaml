@@ -1,0 +1,139 @@
+########################
+# Defaults
+########################
+
+defaults:
+  - _self_
+  # Dataset to use: avmnist, ptbxl, kuhar, ucihar, etc.
+  - dataset: avmnist
+  # Partitioner to use: iid or niid
+  - partitioner: iid
+  # Aggregation strategy to use: full-model, private-head, private-head-fusion
+  - aggregation: full-model
+
+########################
+# Experiment Settings
+########################
+
+experiment:
+  # Number of runs to average results over
+  num_runs: 5
+  # Number of server communication rounds
+  num_rounds: 60
+  # Number of local epochs per round
+  local_epochs: 1
+
+  # Client modality distribution ("modality1_modality2_...": num_clients)
+  clients:
+    audio: 0
+    image: 0
+    audio_image: 10
+  # Test split ratio for local evaluation
+  test_split_ratio: 0.3
+  # Batch size for local training
+  batch_size: 16
+
+  # Number of CPUs per client
+  num_cpus_per_client: 2
+  # Number of GPUs per client
+  num_gpus_per_client: 0.25
+  # Device to use for client training
+  device: cuda
+
+  # Enable verbose logging for flower
+  verbose_logging: false
+  
+  # Additional DataLoader kwargs for training
+  train_dataloader_kwargs:
+    num_workers: 2
+    pin_memory: true
+    prefetch_factor: 2
+    # collate_fn:
+    #   _target_: blossom.benchmarks.meld.dataloader.get_collate_fn
+  
+  # Additional DataLoader kwargs for testing 
+  test_dataloader_kwargs:
+    num_workers: 1
+    pin_memory: true
+    # collate_fn:
+    #   _target_: blossom.benchmarks.meld.dataloader.get_collate_fn
+
+########################
+# Server Settings
+########################
+
+server_fn:
+  # Hydra target to build the server function
+  _target_: blossom.server_app.build_server_fn
+  # Number of server communication rounds
+  num_rounds: ${experiment.num_rounds}
+  # Whether clients have private head modules
+  private_head: ${aggregation.private_head}
+  # Whether clients have private fusion modules
+  private_fusion: ${aggregation.private_fusion}
+  # Fraction of clients used during training
+  fraction_fit: 1
+  # Fraction of clients used during validation
+  fraction_evaluate: 1
+  # Minimum number of clients used during training
+  min_fit_clients: 2
+  # Minimum number of clients used during validation
+  min_evaluate_clients: 2
+  # Minimum number of total clients in the system
+  min_avail_clients: 2
+  # Client modality distribution
+  client_config:
+    _target_: blossom.utils.parse_dict_with_tuple_keys
+    src_dict: ${experiment.clients}
+  # Dictionary of encoders to use
+  encoders_dict: ${dataset.encoders_dict}
+  # Fusion module to use
+  fusion_module: ${dataset.fusion_module}
+  # Head module to use
+  head_module: ${dataset.head_module}
+
+#######################
+# Client Settings
+########################
+
+client_fn:
+  # Hydra target to build the client function
+  _target_: blossom.client_app.build_client_fn
+  # Task definition to use
+  task: ${dataset.task}
+  # Name of the dataset on Hugging Face
+  dataset_name: ${dataset.huggingface}
+  # Dataset class to use
+  dataset_class: ${dataset.dataset_class}
+  # Test split ratio for local evaluation
+  test_split_ratio: ${experiment.test_split_ratio}
+  # Batch size for local training
+  batch_size: ${experiment.batch_size}
+  # Number of local epochs per round
+  local_epochs: ${experiment.local_epochs}
+  # Whether to use NIID partitioning
+  niid: ${partitioner.niid}
+  # Alpha parameter for NIID partitioning
+  alpha: ${partitioner.alpha}
+  # Column to partition data by for NIID partitioning
+  partition_by: ${dataset.partition_by}
+  # Dictionary of encoders to use
+  encoders_dict: ${dataset.encoders_dict}
+  # Fusion module to use
+  fusion_module: ${dataset.fusion_module}
+  # Head module to use
+  head_module: ${dataset.head_module}
+  # Device to use for client training
+  device: ${experiment.device}
+  # Additional kwargs for training Dataloader
+  train_dataloader_kwargs: ${experiment.train_dataloader_kwargs}
+  # Additional kwargs for test Dataloader
+  test_dataloader_kwargs: ${experiment.test_dataloader_kwargs}
+  
+########################
+# Logging Settings
+########################
+
+logging:
+    # Base directory for writing logs and outputs
+    results_dir: ${hydra:runtime.cwd}/results

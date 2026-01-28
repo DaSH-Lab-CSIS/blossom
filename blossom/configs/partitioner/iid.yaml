@@ -1,0 +1,4 @@
+# Configuration for IID partitioning
+name: iid
+niid: false
+alpha: 0.0 # Not used for IID

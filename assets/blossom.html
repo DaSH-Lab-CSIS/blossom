@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blossom Logo Generator</title>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+<script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+
+<script>
+function setup() {
+  createCanvas(2400, 2400, SVG);
+  // pixelDensity(2);
+  noLoop();
+}
+
+function drawFlower(scaleFactor = 1) {
+  push();
+  scale(scaleFactor);
+
+  stroke(220, 120, 140);
+  strokeWeight(0.15 / scaleFactor);
+  fill(252, 165, 159);
+
+  beginShape();
+  let a = 220;
+  let N = 5;
+  let p = 0.45;
+  let eps = 0.18;
+  let M = 11.2;
+
+  for (let t = 0; t <= TWO_PI + 0.005; t += 0.005) {
+    let base = pow(abs(cos((N * t) / 2)), p);
+    let ripple = 1 + eps * cos(M * t);
+    let jitter = 1 + 0.03 * sin(3 * t);
+    let r = a * base * ripple * jitter;
+
+    vertex(r * cos(t), r * sin(t));
+  }
+  endShape(CLOSE);
+
+  // stamens
+  let stamenCount = 20; 
+  let innerR = 6 * scaleFactor;
+  let minOuterR = 28 * (1.6 + scaleFactor);
+  let maxOuterR = 55 * (1.6 + scaleFactor);
+
+  stroke(252, 93, 68);
+  strokeWeight(0.07 / scaleFactor);
+
+  for (let i = 0; i < stamenCount; i++) {
+    let ang = TWO_PI * i / stamenCount;
+    let outerR = random(minOuterR, maxOuterR);
+
+    let x1 = innerR * cos(ang);
+    let y1 = innerR * sin(ang);
+    let x2 = outerR * cos(ang);
+    let y2 = outerR * sin(ang);
+
+    line(x1, y1, x2, y2);
+
+    noStroke();
+    fill(252, 165, 78);
+    circle(x2, y2, random(0.4, 0.7) / scaleFactor);
+    stroke(252, 93, 68);
+  }
+
+  noStroke();
+  fill(252, 165, 78);
+  circle(0, 0, 2 / scaleFactor);
+
+  pop();
+}
+
+
+function angleBetween(p1, p2) {
+  return atan2(p2.y - p1.y, p2.x - p1.x);
+}
+
+function placeFlowerAt(p1, p2, scale) {
+  let ang = angleBetween(p1, p2);
+
+  push();
+  translate(p2.x, p2.y);
+  rotate(ang + HALF_PI + random(-0.3, 0.3));
+  drawFlower(scale);
+  pop();
+}
+
+// Smooth branch drawing
+function drawBranch(points, weightStart, weightEnd) {
+  stroke(120, 90, 70);
+  noFill();
+
+  // Interpolate points for smoother lines
+  let smoothPoints = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    let p0 = points[i];
+    let p1 = points[i + 1];
+    let steps = 20; // more steps = smoother
+    for (let j = 0; j < steps; j++) {
+      let t = j / steps;
+      let x = lerp(p0.x, p1.x, t);
+      let y = lerp(p0.y, p1.y, t);
+      smoothPoints.push(createVector(x, y));
+    }
+  }
+  smoothPoints.push(points[points.length - 1]); // last point
+
+  // Draw line segments with varying weight
+  for (let i = 0; i < smoothPoints.length - 1; i++) {
+    let w = map(i, 0, smoothPoints.length - 2, weightStart, weightEnd);
+    strokeWeight(w);
+    line(smoothPoints[i].x, smoothPoints[i].y, smoothPoints[i+1].x, smoothPoints[i+1].y);
+  }
+}
+
+function draw() {
+  // randomSeed(69);
+  translate(width / 2, height / 2);
+  scale(9);
+
+  // MAIN BRANCH (slightly shorter)
+  let main = [
+    createVector(-90, 80),  // shorter start
+    createVector(-60, 60),
+    createVector(-10, 30),
+    createVector(50, 10),
+    createVector(100, -20)    // slightly shorter tip
+  ];
+
+  drawBranch(main, 12 * 9, 5 * 9);
+
+  // SECONDARY BRANCHES (alternating left/right properly)
+  let sideBranches = [
+    [ main[1], createVector(25, 55) ],  // now on opposite side
+    [ main[2], createVector(20, -30) ],  // right
+    [ main[3], createVector(100, -50) ]  // left
+  ];
+
+  for (let i = 0; i < sideBranches.length; i++) {
+    let b = sideBranches[i];
+    drawBranch(b, 10 * 9, 6 * 9);
+
+    // Flower at tip
+    placeFlowerAt(b[0], b[1], random(0.08, 0.11));
+
+    // Optional extra flowers along branch
+    let extraFlowerCount = random() < 0.6 ? (random() < 0.5 ? 2 : 1) : 0;
+    for (let j = 0; j < extraFlowerCount; j++) {
+      let t = random(0.1, 0.8);
+      let p = p5.Vector.lerp(b[0], b[1], t);
+      placeFlowerAt(b[0], p, random(0.06, 0.09));
+    }
+  }
+
+  // Flowers on main branch tips
+  placeFlowerAt(main[3], main[4], 0.09);
+  placeFlowerAt(main[2], main[3], 0.09);
+}
+
+function keyPressed() {
+  if (key === 's') save("blossom.svg");
+}
+
+</script>
+
+</body>
+</html>

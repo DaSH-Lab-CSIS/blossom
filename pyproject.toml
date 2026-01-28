@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blossom"
+version = "1.0.0"
+description = "A framework for multimodal federated learning"
+requires-python = ">=3.11"
+
+dependencies = [
+    # Framework dependencies
+    "flwr[simulation]",
+    "flwr-datasets",
+    "numpy",
+    "pandas",
+    "torch",
+    "datasets",
+    "huggingface-hub",
+    "matplotlib",
+    "hydra-core",
+    "omegaconf",
+    "rich",
+    # Benchmark dependencies
+    "pillow",
+    "transformers",
+    "torchvision",
+    "torchaudio",
+    "torchmultimodal-nightly",
+    "librosa",
+    "soundfile"
+]
+
+[tool.setuptools]
+packages = ["blossom"]

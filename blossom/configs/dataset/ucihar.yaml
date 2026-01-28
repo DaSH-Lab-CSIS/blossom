@@ -1,0 +1,15 @@
+# Configuration for UCI-HAR dataset
+name: UCI-HAR
+huggingface: BLOSSOM-framework/UCI-HAR
+task:
+  _target_: blossom.benchmarks.ucihar.task.get_task
+dataset_class:
+  _target_: blossom.benchmarks.ucihar.dataloader.get_dataset_class
+encoders_dict:
+  _target_: blossom.benchmarks.ucihar.models.get_encoders_dict
+fusion_module:
+  _target_: blossom.benchmarks.ucihar.models.get_fusion_module
+head_module:
+  _target_: blossom.benchmarks.ucihar.models.get_head_module 
+partition_by:
+  _target_: blossom.benchmarks.ucihar.task.get_partition_by

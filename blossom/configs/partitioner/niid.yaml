@@ -1,0 +1,4 @@
+# Configuration for NIID partitioning
+name: niid
+niid: true
+alpha: 0.5

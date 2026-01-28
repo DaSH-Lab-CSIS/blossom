@@ -1,0 +1,15 @@
+# Configuration for KU-HAR dataset
+name: KU-HAR
+huggingface: BLOSSOM-framework/KU-HAR
+task:
+  _target_: blossom.benchmarks.kuhar.task.get_task
+dataset_class:
+  _target_: blossom.benchmarks.kuhar.dataloader.get_dataset_class
+encoders_dict:
+  _target_: blossom.benchmarks.kuhar.models.get_encoders_dict
+fusion_module:
+  _target_: blossom.benchmarks.kuhar.models.get_fusion_module
+head_module:
+  _target_: blossom.benchmarks.kuhar.models.get_head_module 
+partition_by:
+  _target_: blossom.benchmarks.kuhar.task.get_partition_by

@@ -1,0 +1,14 @@
+name: IEMOCAP
+huggingface: BLOSSOM-framework/IEMOCAP
+task:
+  _target_: blossom.benchmarks.iemocap.task.get_task
+dataset_class:
+  _target_: blossom.benchmarks.iemocap.dataloader.get_dataset_class
+encoders_dict:
+  _target_: blossom.benchmarks.iemocap.models.get_encoders_dict
+fusion_module:
+  _target_: blossom.benchmarks.iemocap.models.get_fusion_module
+head_module:
+  _target_: blossom.benchmarks.iemocap.models.get_head_module 
+partition_by:
+  _target_: blossom.benchmarks.iemocap.task.get_partition_by
