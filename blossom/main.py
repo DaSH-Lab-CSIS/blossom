@@ -6,7 +6,6 @@ from datetime import datetime
 # Third-party imports
 import hydra
 from omegaconf import OmegaConf
-from hydra.core.global_hydra import GlobalHydra
 
 # Flower imports
 from flwr.client import ClientApp

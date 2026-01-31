@@ -26,7 +26,7 @@
 ## Architecture
 
 <div align="center">
-<img src="assets/architecture.png" alt="BLOSSOM Architecture" width="90%"/>
+<img src="assets/architecture.png" alt="BLOSSOM Architecture" width="90%", style="background-color: #FFFFFF"/>
 </div>
 
 BLOSSOM's architecture is designed to handle heterogeneous multimodal clients in a federated learning setting:
