@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.png" alt="BLOSSOM : Block-wise Federated Learning Over Shared and Sparse Observed Modalities" width="100%"/>
+<img src="assets/banner.png" alt="BLOSSOM" width="100%"/>
 
 <br/>
 
@@ -10,9 +10,12 @@
 </div>
 
 ---
-# BLOSSOM : Block-wise Federated Learning Over Shared and Sparse Observed Modalities
+# BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities
 
-**BLOSSOM** is a flexible framework that enables multimodal federated learning with real-world data scenarios. Built on the [Flower](https://github.com/adap/flower) framework, BLOSSOM implements the **MultiFL** strategy to handle heterogeneous client modalities, supporting various aggregation schemes including private heads and fusion layers.
+**BLOSSOM** is a flexible framework that enables multimodal federated learning with real-world data scenarios. Built on the [Flower](https://github.com/adap/flower) framework, BLOSSOM implements a block-wise aggregation strategy to handle heterogeneous client modalities, supporting various aggregation schemes including private heads and fusion layers.
+
+> [!NOTE]
+> Code for the paper **[BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities]([PLACEHOLDER])**.
 
 ## Features
 
@@ -62,7 +65,7 @@ pip install -e .
 
 ```bash
 # Install uv if you haven't already
-curl -LsSf https://astral.sh/uv/install.sh | sh
+pip install uv
 
 # Create and activate virtual environment
 uv venv --python 3.11
@@ -497,14 +500,9 @@ python -m blossom.main dataset=yourdataset
 
 The model implementations used in this project are adapted from the [FedMultimodal](https://github.com/usc-sail/fed-multimodal) repository.
 
-## License
+## Citing
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Support
-
-For questions and issues, please open an issue on GitHub.
+If you use BLOSSOM in your research, please cite the following paper:
+```bibtex
+[PLACEHOLDER]
+```
