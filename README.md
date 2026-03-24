@@ -12,10 +12,10 @@
 ---
 # BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities
 
-**BLOSSOM** is a flexible framework that enables multimodal federated learning with real-world data scenarios. Built on the [Flower](https://github.com/adap/flower) framework, BLOSSOM implements a block-wise aggregation strategy to handle heterogeneous client modalities, supporting various aggregation schemes including private heads and fusion layers.
-
 > [!NOTE]
-> Code for the paper **[BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities]([PLACEHOLDER])**.
+> Code for the **IJCNN 2026** paper **[BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities]([PLACEHOLDER])**.
+
+Multimodal federated learning is essential for real-world applications such as autonomous systems and healthcare, where data is distributed across heterogeneous clients with varying and often missing modalities. However, most existing FL approaches assume uniform modality availability, limiting their applicability in practice. We introduce BLOSSOM, a task-agnostic framework for multimodal FL designed to operate under shared and sparsely observed modality conditions. BLOSSOM supports clients with arbitrary modality subsets and enables flexible sharing of model components. To address client and task heterogeneity, we propose a block-wise aggregation strategy that selectively aggregates shared components while keeping task-specific blocks private, enabling partial personalization. We evaluate BLOSSOM on multiple diverse multimodal datasets and analyse the effects of missing modalities and personalization. Our results show that block-wise personalization significantly improves performance, particularly in settings with severe modality sparsity. In modality-incomplete scenarios, BLOSSOM achieves an average performance gain of 18.7% over full-model aggregation, while in modality-exclusive settings the gain increases to 37.7%, highlighting the importance of block-wise learning for practical multimodal FL systems.
 
 ## Features
 
@@ -77,21 +77,6 @@ cd blossom
 
 # Install in editable mode
 uv pip install -e .
-```
-
-### Option 3: Using pip only
-
-```bash
-# Create and activate virtual environment
-python3.11 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Clone the repository
-git clone https://github.com/DaSH-Lab-CSIS/BLOSSOM.git
-cd blossom
-
-# Install in editable mode
-pip install -e .
 ```
 
 ## Quick Start
@@ -217,51 +202,6 @@ python -m blossom.main \
 python -m blossom.main \
     experiment.num_gpus_per_client=0.5 \
     experiment.num_cpus_per_client=2
-```
-
-### Complete Example Commands
-
-#### Example 1: AV-MNIST with Non-IID data and private heads
-
-```bash
-python -m blossom.main \
-    dataset=avmnist \
-    partitioner=niid \
-    partitioner.alpha=0.5 \
-    aggregation=private-head \
-    experiment.clients.audio=3 \
-    experiment.clients.image=3 \
-    experiment.clients.audio_image=4 \
-    experiment.num_rounds=30 \
-    experiment.local_epochs=2 \
-    experiment.batch_size=16
-```
-
-#### Example 2: IEMOCAP with IID and full-model aggregation
-
-```bash
-python -m blossom.main \
-    dataset=iemocap \
-    partitioner=iid \
-    aggregation=full-model \
-    experiment.clients.audio=0 \
-    experiment.clients.text=0 \
-    experiment.clients.audio_text=10 \
-    experiment.num_rounds=20 \
-    experiment.num_runs=5
-```
-
-#### Example 3: Comparing all aggregation strategies
-
-```bash
-# Full-model
-python -m blossom.main dataset=avmnist aggregation=full-model
-
-# Private head
-python -m blossom.main dataset=avmnist aggregation=private-head
-
-# Private head + fusion
-python -m blossom.main dataset=avmnist aggregation=private-head-fusion
 ```
 
 ## Output Structure
@@ -504,5 +444,11 @@ The model implementations used in this project are adapted from the [FedMultimod
 
 If you use BLOSSOM in your research, please cite the following paper:
 ```bibtex
-[PLACEHOLDER]
+@inproceedings{mr2026blossom,
+  title={BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities},
+  author={M R, Pranav and Chandwani, Jayant and Abdelmoniem, Ahmed M. and Paul, Arnab K.},
+  booktitle={Proceedings of the International Joint Conference on Neural Networks (IJCNN)},
+  year={2026},
+  url={[PLACEHOLDER]}
+}
 ```
