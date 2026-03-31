@@ -13,7 +13,7 @@
 # BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities
 
 > [!NOTE]
-> Code for the **IJCNN 2026** paper **[BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities]([PLACEHOLDER])**.
+> Code for the **IJCNN 2026** paper **[BLOSSOM: Block-wise Federated Learning Over Shared and Sparse Observed Modalities](https://arxiv.org/abs/2603.27552)**.
 
 Multimodal federated learning is essential for real-world applications such as autonomous systems and healthcare, where data is distributed across heterogeneous clients with varying and often missing modalities. However, most existing FL approaches assume uniform modality availability, limiting their applicability in practice. We introduce BLOSSOM, a task-agnostic framework for multimodal FL designed to operate under shared and sparsely observed modality conditions. BLOSSOM supports clients with arbitrary modality subsets and enables flexible sharing of model components. To address client and task heterogeneity, we propose a block-wise aggregation strategy that selectively aggregates shared components while keeping task-specific blocks private, enabling partial personalization. We evaluate BLOSSOM on multiple diverse multimodal datasets and analyse the effects of missing modalities and personalization. Our results show that block-wise personalization significantly improves performance, particularly in settings with severe modality sparsity. In modality-incomplete scenarios, BLOSSOM achieves an average performance gain of 18.7% over full-model aggregation, while in modality-exclusive settings the gain increases to 37.7%, highlighting the importance of block-wise learning for practical multimodal FL systems.
 
@@ -449,6 +449,6 @@ If you use BLOSSOM in your research, please cite the following paper:
   author={M R, Pranav and Chandwani, Jayant and Abdelmoniem, Ahmed M. and Paul, Arnab K.},
   booktitle={Proceedings of the International Joint Conference on Neural Networks (IJCNN)},
   year={2026},
-  url={[PLACEHOLDER]}
+  url={https://arxiv.org/abs/2603.27552}
 }
 ```
